@@ -8,6 +8,8 @@ import pro.sky.java.course2.coursework1bymap.Employee;
 import pro.sky.java.course2.coursework1bymap.service.EmployeeService;
 import pro.sky.java.course2.coursework1bymap.service.EmployeeServiceImpl;
 
+import java.util.Collection;
+
 
 @RestController
 @RequestMapping("/employee")
@@ -35,7 +37,7 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public String print() {
+    public Collection<Employee> print() {
         return employeeService.print();
     }
 }

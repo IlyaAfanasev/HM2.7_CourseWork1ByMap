@@ -5,8 +5,11 @@ import pro.sky.java.course2.coursework1bymap.Employee;
 import pro.sky.java.course2.coursework1bymap.Exceptions.EmployeeAlreadyAdded;
 import pro.sky.java.course2.coursework1bymap.Exceptions.EmployeeNotFound;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -19,42 +22,40 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee add(String lastName, String firstName) {
-        String key = lastName + " " + firstName;
+
         Employee employee = new Employee(lastName, firstName);
 
 
-        if (employeesMap.containsKey(key)) {
+        if (employeesMap.containsKey(employee.getFullName())) {
             throw new EmployeeAlreadyAdded("Сотрудник " + lastName + " " + firstName + " уже внесен в реестр");
-        } else {
-            employeesMap.put(key, employee);
         }
+            employeesMap.put(employee.getFullName(), employee);
+
         return employee;
     }
 
     @Override
     public Employee remove(String lastName, String firstName) {
-        String key = lastName + " " + firstName;
+
         Employee employee = new Employee(lastName, firstName);
-        if (!employeesMap.containsKey(key)) {
-            throw new EmployeeNotFound("Сотрудник не найден");
+        if (employeesMap.containsKey(employee.getFullName())) {
+            return  employeesMap.remove(employee.getFullName());
         }
-        employeesMap.remove(key);
-        return employee;
+        throw new EmployeeNotFound("Сотрудник не найден");
     }
 
     @Override
     public Employee find(String lastName, String firstName) {
-        String key = lastName + " " + firstName;
-        Employee employee = new Employee(lastName, firstName);
-        if (!employeesMap.containsKey(key)) {
-            throw new EmployeeNotFound("Сотрудник не найден");
-        }
 
-        return employee;
+        Employee employee = new Employee(lastName, firstName);
+        if (employeesMap.containsKey(employee.getFullName())) {
+            return employeesMap.get(employee.getFullName());
+        }
+        throw new EmployeeNotFound("Сотрудник не найден");
     }
 
     @Override
-    public String print() {
-        return employeesMap.toString();
+    public Collection<Employee> print() {
+        return Collections.unmodifiableCollection(employeesMap.values());
     }
 }

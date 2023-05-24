@@ -1,7 +1,8 @@
 package pro.sky.java.course2.coursework1bymap.service;
 
-import org.springframework.stereotype.Service;
 import pro.sky.java.course2.coursework1bymap.Employee;
+
+import java.util.Collection;
 
 
 public interface EmployeeService {
@@ -12,5 +13,5 @@ public interface EmployeeService {
 
     Employee find(String lastName, String firstName);
 
-    String print();
+    Collection<Employee> print();
 }
